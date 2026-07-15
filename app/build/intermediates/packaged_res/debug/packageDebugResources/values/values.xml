@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pink_40">#7D5260</color>
+    <color name="pink_80">#EFB8C8</color>
+    <color name="purple_40">#6650a4</color>
+    <color name="purple_80">#D0BCFF</color>
+    <color name="purple_grey_40">#625b71</color>
+    <color name="purple_grey_80">#CCC2DC</color>
+    <string name="app_name">TicketTrack</string>
+    <string name="capture_camera_permission_denied">Permiso de cámara denegado. Puedes escanear el ticket con el botón inferior.</string>
+    <string name="capture_error_cancelled">Escaneo cancelado</string>
+    <string name="capture_error_save_failed">Error al guardar la imagen</string>
+    <string name="capture_error_scan_failed">No se pudo capturar el ticket</string>
+    <string name="capture_error_scanner_unavailable">El escáner de documentos no está disponible</string>
+    <string name="capture_scan_button">Escanear ticket</string>
+    <string name="capture_success_message">Ticket capturado correctamente</string>
+    <string name="capture_success_thumbnail">Vista previa del ticket capturado</string>
+    <string name="nav_capture">Capturar</string>
+    <string name="nav_metrics">Métricas</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_tickets">Tickets</string>
+    <style name="Theme.TicketTrack" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>

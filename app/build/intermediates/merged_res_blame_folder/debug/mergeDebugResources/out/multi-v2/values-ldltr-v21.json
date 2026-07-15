@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.tickettrack.app-mergeDebugResources-78:/values-ldltr-v21/values-ldltr-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Usuario\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5cb0b1b0a12cef85bb77124c972ce187\\gradle\\caches\\8.13\\transforms\\e4f84bd6d260ffac3de208662f722b84\\transformed\\appcompat-1.7.0\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "112",
+                        "endOffsets": "163"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TicketVault</string>
+    <string name="nav_capture">Capturar</string>
+    <string name="nav_tickets">Tickets</string>
+    <string name="nav_metrics">Métricas</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <string name="capture_scan_button">Escanear ticket</string>
+    <string name="capture_camera_permission_denied">Permiso de cámara denegado. Puedes escanear el ticket con el botón inferior.</string>
+    <string name="capture_success_message">Ticket capturado correctamente</string>
+    <string name="capture_success_thumbnail">Vista previa del ticket capturado</string>
+    <string name="capture_error_cancelled">Escaneo cancelado</string>
+    <string name="capture_error_scan_failed">No se pudo capturar el ticket</string>
+    <string name="capture_error_save_failed">Error al guardar la imagen</string>
+    <string name="capture_error_scanner_unavailable">El escáner de documentos no está disponible</string>
+</resources>
