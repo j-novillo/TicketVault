@@ -54,7 +54,12 @@ class ColorMatrixTicketImageCleaner @Inject constructor(
         }
     }
 
-    private fun applyEnhancement(source: Bitmap): Bitmap {
+    private fun applyEnhancement(source: Bitmap): Bitmap = enhanceBitmap(source)
+
+    /**
+     * Applies grayscale + contrast/brightness. Visible for unit tests (Robolectric).
+     */
+    internal fun enhanceBitmap(source: Bitmap): Bitmap {
         val scaled = scaleIfNeeded(source)
         val output = Bitmap.createBitmap(scaled.width, scaled.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(output)

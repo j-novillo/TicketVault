@@ -9,8 +9,9 @@
     <string name="app_name">TicketVault</string>
     <string name="capture_camera_permission_denied">Permiso de cámara denegado. Puedes escanear el ticket con el botón inferior.</string>
     <string name="capture_error_cancelled">Escaneo cancelado</string>
-    <string name="capture_error_invalid_image">La imagen no es válida (formato, tamaño o resolución)</string>
-    <string name="capture_error_save_failed">Error al guardar la imagen</string>
+    <string name="capture_error_enhance_failed">No se pudo preparar la imagen del ticket. Vuelve a intentarlo.</string>
+    <string name="capture_error_invalid_image">La imagen no es válida (formato, tamaño o resolución). Vuelve a intentarlo.</string>
+    <string name="capture_error_save_failed">Error al guardar la imagen. Vuelve a intentarlo.</string>
     <string name="capture_error_scan_failed">No se pudo capturar el ticket</string>
     <string name="capture_error_scanner_unavailable">El escáner de documentos no está disponible</string>
     <string name="capture_scan_button">Escanear ticket</string>

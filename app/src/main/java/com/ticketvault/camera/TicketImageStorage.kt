@@ -44,6 +44,10 @@ class TicketImageStorage @Inject constructor(
         }
     }
 
+    suspend fun deleteIfExists(path: String): Unit = withContext(Dispatchers.IO) {
+        runCatching { File(path).takeIf { it.exists() }?.delete() }
+    }
+
     companion object {
         private const val ORIGINAL_DIR = "tickets/original"
         private const val CLEANED_DIR = "tickets/cleaned"

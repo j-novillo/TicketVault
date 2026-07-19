@@ -17,6 +17,7 @@ enum class CaptureError {
     Cancelled,
     ScanFailed,
     SaveFailed,
+    EnhanceFailed,
     ScannerUnavailable,
     InvalidImage,
 }

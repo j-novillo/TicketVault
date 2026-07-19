@@ -69,6 +69,7 @@ fun CaptureScreen(
                 CaptureError.Cancelled -> R.string.capture_error_cancelled
                 CaptureError.ScanFailed -> R.string.capture_error_scan_failed
                 CaptureError.SaveFailed -> R.string.capture_error_save_failed
+                CaptureError.EnhanceFailed -> R.string.capture_error_enhance_failed
                 CaptureError.ScannerUnavailable -> R.string.capture_error_scanner_unavailable
                 CaptureError.InvalidImage -> R.string.capture_error_invalid_image
             }

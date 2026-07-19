@@ -12,6 +12,7 @@ mipmap ic_launcher_round
 string app_name
 string capture_camera_permission_denied
 string capture_error_cancelled
+string capture_error_enhance_failed
 string capture_error_invalid_image
 string capture_error_save_failed
 string capture_error_scan_failed

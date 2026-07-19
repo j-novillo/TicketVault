@@ -1017,6 +1017,7 @@ string call_notification_ongoing_text
 string call_notification_screening_text
 string capture_camera_permission_denied
 string capture_error_cancelled
+string capture_error_enhance_failed
 string capture_error_invalid_image
 string capture_error_save_failed
 string capture_error_scan_failed

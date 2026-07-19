@@ -26,10 +26,12 @@ Como usuario, quiero importar una foto de un ticket desde mi galería, para digi
 ### HU-1.3 — Limpieza y mejora automática de la imagen
 Como usuario, quiero que la app mejore la calidad del ticket capturado, para que el OCR sea más preciso.
 
-- [ ] Aplicar recorte automático de bordes (incluido en Document Scanner)
-- [ ] Aplicar corrección de perspectiva y eliminación de sombras/manchas
-- [ ] Permitir recorte/ajuste manual como fallback si el automático falla
-- [ ] Guardar tanto la imagen original como la limpia (para trazabilidad)
+- [x] Aplicar recorte automático de bordes (incluido en Document Scanner)
+- [x] Aplicar corrección de perspectiva (Document Scanner) y mejora básica post-escaneo (`TicketImageCleaner`: grayscale + contraste)
+- [x] Si la limpieza automática falla, mostrar error y permitir reintentar el escaneo (sin edición manual)
+- [x] Guardar tanto la imagen original como la limpia (para trazabilidad)
+
+> **Mejora futura:** el paso de limpieza (`TicketImageCleaner`) puede necesitar un pipeline más agresivo (p. ej. reducción de sombras / adaptive threshold) si el OCR de la HU-2.1 no es suficientemente preciso con tickets reales. Priorizar algoritmos en código propio antes de valorar OpenCV.
 
 ---
 
