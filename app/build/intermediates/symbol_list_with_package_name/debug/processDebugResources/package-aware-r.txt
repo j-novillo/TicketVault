@@ -1,4 +1,4 @@
-com.tickettrack
+com.ticketvault
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -1017,6 +1017,7 @@ string call_notification_ongoing_text
 string call_notification_screening_text
 string capture_camera_permission_denied
 string capture_error_cancelled
+string capture_error_invalid_image
 string capture_error_save_failed
 string capture_error_scan_failed
 string capture_error_scanner_unavailable
@@ -1397,7 +1398,7 @@ style Theme_AppCompat_Light_Dialog_MinWidth
 style Theme_AppCompat_Light_DialogWhenLarge
 style Theme_AppCompat_Light_NoActionBar
 style Theme_AppCompat_NoActionBar
-style Theme_TicketTrack
+style Theme_TicketVault
 style ThemeOverlay_AppCompat
 style ThemeOverlay_AppCompat_ActionBar
 style ThemeOverlay_AppCompat_Dark

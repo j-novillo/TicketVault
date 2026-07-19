@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.IntentSender
-import android.net.Uri
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
@@ -12,14 +11,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GmsDocumentScannerGateway @Inject constructor(
-    private val ticketImageStorage: TicketImageStorage,
-) : DocumentScannerGateway {
+class GmsDocumentScannerGateway @Inject constructor() : DocumentScannerGateway {
 
     private val scannerOptions: GmsDocumentScannerOptions =
         GmsDocumentScannerOptions.Builder()
-            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
-            .setGalleryImportAllowed(false)
+            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_BASE)
+            .setGalleryImportAllowed(true)
+            .setPageLimit(1)
+            .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
             .build()
 
     override fun getScanIntentSender(
@@ -46,7 +45,4 @@ class GmsDocumentScannerGateway @Inject constructor(
 
         return ScanParseResult.Success(pageUri)
     }
-
-    override suspend fun persistScannedImage(sourceUri: Uri): Result<String> =
-        ticketImageStorage.saveFromUri(sourceUri)
 }

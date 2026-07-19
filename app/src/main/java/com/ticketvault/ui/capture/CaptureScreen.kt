@@ -70,6 +70,7 @@ fun CaptureScreen(
                 CaptureError.ScanFailed -> R.string.capture_error_scan_failed
                 CaptureError.SaveFailed -> R.string.capture_error_save_failed
                 CaptureError.ScannerUnavailable -> R.string.capture_error_scanner_unavailable
+                CaptureError.InvalidImage -> R.string.capture_error_invalid_image
             }
             snackbarHostState.showSnackbar(context.getString(messageRes))
         }
@@ -133,7 +134,7 @@ fun CaptureScreen(
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                         AsyncImage(
-                            model = File(state.imagePath),
+                            model = File(state.cleanedPath),
                             contentDescription = stringResource(R.string.capture_success_thumbnail),
                             modifier = Modifier
                                 .size(160.dp)

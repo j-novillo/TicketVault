@@ -339,7 +339,7 @@
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
-    <string name="app_name">TicketTrack</string>
+    <string name="app_name">TicketVault</string>
     <string name="autofill">Autofill</string>
     <string name="call_notification_answer_action">Answer</string>
     <string name="call_notification_answer_video_action">Video</string>
@@ -350,6 +350,7 @@
     <string name="call_notification_screening_text">Screening an incoming call</string>
     <string name="capture_camera_permission_denied">Permiso de cámara denegado. Puedes escanear el ticket con el botón inferior.</string>
     <string name="capture_error_cancelled">Escaneo cancelado</string>
+    <string name="capture_error_invalid_image">La imagen no es válida (formato, tamaño o resolución)</string>
     <string name="capture_error_save_failed">Error al guardar la imagen</string>
     <string name="capture_error_scan_failed">No se pudo capturar el ticket</string>
     <string name="capture_error_scanner_unavailable">El escáner de documentos no está disponible</string>
@@ -1893,7 +1894,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.TicketTrack" parent="android:Theme.Material.Light.NoActionBar"/>
+    <style name="Theme.TicketVault" parent="android:Theme.Material.Light.NoActionBar"/>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>

@@ -1,6 +1,7 @@
 package com.ticketvault.camera
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +15,15 @@ import javax.inject.Singleton
 class TicketImageStorage @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
-    private val ticketsDir: File
-        get() = File(context.filesDir, TICKETS_DIR).also { it.mkdirs() }
+    private val originalDir: File
+        get() = File(context.filesDir, ORIGINAL_DIR).also { it.mkdirs() }
 
-    suspend fun saveFromUri(sourceUri: Uri): Result<String> = withContext(Dispatchers.IO) {
+    private val cleanedDir: File
+        get() = File(context.filesDir, CLEANED_DIR).also { it.mkdirs() }
+
+    suspend fun saveOriginalFromUri(sourceUri: Uri): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
-            val destination = File(ticketsDir, "${UUID.randomUUID()}.jpg")
+            val destination = File(originalDir, "${UUID.randomUUID()}.jpg")
             context.contentResolver.openInputStream(sourceUri)?.use { input ->
                 destination.outputStream().use { output ->
                     input.copyTo(output)
@@ -29,7 +33,20 @@ class TicketImageStorage @Inject constructor(
         }
     }
 
+    suspend fun saveCleanedBitmap(bitmap: Bitmap): Result<String> = withContext(Dispatchers.IO) {
+        runCatching {
+            val destination = File(cleanedDir, "${UUID.randomUUID()}.jpg")
+            destination.outputStream().use { output ->
+                val compressed = bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, output)
+                if (!compressed) error("No se pudo guardar la imagen limpia")
+            }
+            destination.absolutePath
+        }
+    }
+
     companion object {
-        private const val TICKETS_DIR = "tickets"
+        private const val ORIGINAL_DIR = "tickets/original"
+        private const val CLEANED_DIR = "tickets/cleaned"
+        private const val JPEG_QUALITY = 90
     }
 }

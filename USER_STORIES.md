@@ -10,18 +10,18 @@
 Como usuario, quiero hacer una foto directamente al ticket desde la app, para digitalizarlo sin salir de la aplicación.
 
 - [ ] Configurar CameraX en un composable de captura
-- [ ] Integrar ML Kit Document Scanner API (`GmsDocumentScannerOptions`, modo `SCANNER_MODE_FULL`)
+- [x] Integrar ML Kit Document Scanner API (`GmsDocumentScannerOptions`, modo `SCANNER_MODE_BASE` + gallery; limpieza propia post-escaneo)
 - [ ] Gestionar permisos de cámara (o delegarlos al flujo del Document Scanner, que no los requiere)
-- [ ] Guardar la imagen resultante (URI JPEG) en almacenamiento interno de la app
-- [ ] Manejar errores (cancelación, fallo de escaneo, mala luz)
+- [x] Guardar la imagen resultante (URI JPEG) en almacenamiento interno de la app
+- [x] Manejar errores (cancelación, fallo de escaneo, mala luz)
 
 ### HU-1.2 — Importar foto desde galería
 Como usuario, quiero importar una foto de un ticket desde mi galería, para digitalizar tickets que ya tenía fotografiados.
 
-- [ ] Habilitar `setGalleryImportAllowed(true)` en el Document Scanner
-- [ ] Alternativa: selector de imagen nativo (`ActivityResultContracts.PickVisualMedia`) si el usuario no quiere pasar por el flujo de escaneo
-- [ ] Validar formato/tamaño de imagen importada
-- [ ] Reutilizar el pipeline de limpieza (paso 2 de HU-1.1) sobre la imagen importada
+- [x] Habilitar `setGalleryImportAllowed(true)` en el Document Scanner
+- [x] ~~Alternativa: selector de imagen nativo (`PickVisualMedia`)~~ — descartado: la galería se usa dentro del Document Scanner (opción A)
+- [x] Validar formato/tamaño de imagen importada
+- [x] Reutilizar el pipeline de limpieza sobre la imagen importada (`TicketImageCleaner` post-escaneo)
 
 ### HU-1.3 — Limpieza y mejora automática de la imagen
 Como usuario, quiero que la app mejore la calidad del ticket capturado, para que el OCR sea más preciso.

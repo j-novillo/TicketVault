@@ -13,8 +13,6 @@ interface DocumentScannerGateway {
     )
 
     fun parseScanResult(resultCode: Int, data: Intent?): ScanParseResult
-
-    suspend fun persistScannedImage(sourceUri: Uri): Result<String>
 }
 
 sealed class ScanParseResult {

@@ -7,7 +7,10 @@ sealed interface CaptureUiState {
 
     data object Saving : CaptureUiState
 
-    data class Success(val imagePath: String) : CaptureUiState
+    data class Success(
+        val cleanedPath: String,
+        val originalPath: String,
+    ) : CaptureUiState
 }
 
 enum class CaptureError {
@@ -15,4 +18,5 @@ enum class CaptureError {
     ScanFailed,
     SaveFailed,
     ScannerUnavailable,
+    InvalidImage,
 }

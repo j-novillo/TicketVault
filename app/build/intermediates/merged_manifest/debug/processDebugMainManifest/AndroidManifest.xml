@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tickettrack"
+    package="com.ticketvault"
     android:versionCode="1"
     android:versionName="0.1.0" >
 
@@ -15,15 +15,15 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <permission
-        android:name="com.tickettrack.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.ticketvault.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.tickettrack.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.ticketvault.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.tickettrack.TicketTrackApplication"
+        android:name="com.ticketvault.TicketVaultApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
@@ -32,12 +32,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:testOnly="true"
-        android:theme="@style/Theme.TicketTrack" >
+        android:theme="@style/Theme.TicketVault" >
         <activity
-            android:name="com.tickettrack.MainActivity"
+            android:name="com.ticketvault.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.TicketTrack" >
+            android:theme="@style/Theme.TicketVault" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,7 +80,7 @@
 
         <provider
             android:name="com.google.mlkit.common.internal.MlKitInitProvider"
-            android:authorities="com.tickettrack.mlkitinitprovider"
+            android:authorities="com.ticketvault.mlkitinitprovider"
             android:exported="false"
             android:initOrder="99" />
 
@@ -100,7 +99,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.tickettrack.androidx-startup"
+            android:authorities="com.ticketvault.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"

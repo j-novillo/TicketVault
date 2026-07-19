@@ -6,6 +6,7 @@ import android.content.IntentSender
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ticketvault.camera.DocumentScannerGateway
+import com.ticketvault.camera.ImageValidationError
 import com.ticketvault.camera.ScanParseResult
 import com.ticketvault.domain.usecase.ProcessScannedImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -80,12 +81,23 @@ class CaptureViewModel @Inject constructor(
         _uiState.update { CaptureUiState.Saving }
         viewModelScope.launch {
             processScannedImageUseCase(sourceUri)
-                .onSuccess { imagePath ->
-                    _uiState.update { CaptureUiState.Success(imagePath) }
+                .onSuccess { processed ->
+                    _uiState.update {
+                        CaptureUiState.Success(
+                            cleanedPath = processed.cleanedPath,
+                            originalPath = processed.originalPath,
+                        )
+                    }
                 }
-                .onFailure {
+                .onFailure { error ->
                     _uiState.update { CaptureUiState.Idle }
-                    _errors.emit(CaptureError.SaveFailed)
+                    _errors.emit(
+                        if (error is ImageValidationError) {
+                            CaptureError.InvalidImage
+                        } else {
+                            CaptureError.SaveFailed
+                        },
+                    )
                 }
         }
     }

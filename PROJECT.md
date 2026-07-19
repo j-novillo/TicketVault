@@ -15,8 +15,8 @@ App Android nativa, **100% cliente, sin backend/servidor**. El usuario fotograf�
 | Capa | Tecnología | Motivo |
 |---|---|---|
 | Lenguaje / UI | Kotlin + Jetpack Compose | Nativo, moderno, coincide con el interés del usuario en Kotlin |
-| Captura de imagen | CameraX | API estable de Google para cámara en Compose |
-| Limpieza de ticket | ML Kit Document Scanner API (`GmsDocumentScanning`) | Recorte automático, corrección de perspectiva, quitar sombras/manchas — 100% on-device |
+| Captura de imagen | CameraX (preview) + ML Kit Document Scanner | Preview en app; escaneo/crop vía GMS |
+| Limpieza de ticket | Document Scanner en `SCANNER_MODE_BASE` (crop) + `TicketImageCleaner` propio | Sin filtros/retoque de Google; mejora automática (contraste, grayscale) en código tras el URI |
 | OCR | ML Kit Text Recognition v2 (`TextRecognition`) | Extracción de texto on-device, sin coste, sin red |
 | Parsing de ticket | Motor de reglas propio (Kotlin) + diccionario de plantillas por comercio (JSON local) | Cada cadena (Mercadona, Carrefour, Lidl, Dia, etc.) tiene formato de ticket distinto; reglas por regex/heurística |
 | Clasificación de artículos | Diccionario local de palabras clave → categoría/subcategoría (JSON editable) | Sin necesidad de modelo ML complejo; ampliable por el usuario |
@@ -57,8 +57,8 @@ app/
 - **Subcategory** (id, categoryId, nombre) — Frescos(Carne, Pescado, Fruta, Verdura), Procesados, etc.
 
 ## 6. Flujo funcional end-to-end
-1. Usuario captura foto (CameraX) o importa de galería.
-2. ML Kit Document Scanner limpia/recorta/mejora la imagen.
+1. Usuario captura foto o importa de galería (ambos vía Document Scanner GMS, con `setGalleryImportAllowed(true)`).
+2. GMS en `SCANNER_MODE_BASE` hace detección/crop (sin filtros de Google). La app valida la imagen, guarda el original y aplica `TicketImageCleaner` (contraste + grayscale) → `cleaned`.
 3. ML Kit Text Recognition extrae texto en bruto.
 4. Módulo `parsing` detecta el comercio (por cabecera/logo textual) y aplica la plantilla correspondiente (o un parser genérico si no hay plantilla).
 5. Se extraen: fecha, comercio, líneas de artículo (nombre, cantidad, precio) y total.
