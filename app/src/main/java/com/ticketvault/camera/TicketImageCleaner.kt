@@ -38,10 +38,7 @@ class ColorMatrixTicketImageCleaner @Inject constructor(
     }
 
     private fun decodeScaledBitmap(sourceUri: Uri): Bitmap? {
-        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        context.contentResolver.openInputStream(sourceUri)?.use { input ->
-            BitmapFactory.decodeStream(input, null, bounds)
-        } ?: return null
+        val bounds = ImageUriReader.decodeBounds(context, sourceUri) ?: return null
 
         val sampleSize = calculateInSampleSize(bounds.outWidth, bounds.outHeight, MAX_LONG_SIDE_PX)
         val decodeOptions = BitmapFactory.Options().apply {
@@ -49,9 +46,7 @@ class ColorMatrixTicketImageCleaner @Inject constructor(
             inPreferredConfig = Bitmap.Config.ARGB_8888
         }
 
-        return context.contentResolver.openInputStream(sourceUri)?.use { input ->
-            BitmapFactory.decodeStream(input, null, decodeOptions)
-        }
+        return ImageUriReader.decodeBitmap(context, sourceUri, decodeOptions)
     }
 
     private fun applyEnhancement(source: Bitmap): Bitmap = enhanceBitmap(source)

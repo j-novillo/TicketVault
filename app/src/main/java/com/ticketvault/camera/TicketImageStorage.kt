@@ -24,11 +24,9 @@ class TicketImageStorage @Inject constructor(
     suspend fun saveOriginalFromUri(sourceUri: Uri): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
             val destination = File(originalDir, "${UUID.randomUUID()}.jpg")
-            context.contentResolver.openInputStream(sourceUri)?.use { input ->
-                destination.outputStream().use { output ->
-                    input.copyTo(output)
-                }
-            } ?: error("No se pudo leer la imagen escaneada")
+            destination.outputStream().use { output ->
+                ImageUriReader.copyTo(context, sourceUri, output)
+            }
             destination.absolutePath
         }
     }
