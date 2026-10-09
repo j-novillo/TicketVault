@@ -11,56 +11,50 @@ gen/
 out/
 release/
 
-# Gradle
+# Gradle files
 .gradle/
 build/
 **/build/
 
-# Local configuration (SDK path — machine-specific)
+# Local configuration (SDK paths, machine-specific)
 local.properties
 
 # Android Studio / IntelliJ
-*.iml
 .idea/
-.navigation/
+*.iml
+*.ipr
+*.iws
 captures/
-.externalNativeBuild/
-.cxx/
+.navigation/
+*.hprof
 
-# NDK
-obj/
+# VS Code
+.vscode/
 
 # Kotlin
 .kotlin/
 
-# VS Code (local launch configs)
-.vscode/
+# NDK
+obj/
+.externalNativeBuild/
+.cxx/
 
-# Keystore files (never commit secrets)
+# Keystores (never commit secrets)
 *.jks
 *.keystore
 
-# Google Services (if added later with secrets)
+# Google Services (uncomment if this file contains secrets)
 # google-services.json
 
-# Log / temp files
+# Log / OS / temp
 *.log
 *.tmp
-*.temp
 *.swp
 *~
 .DS_Store
 Thumbs.db
 
-# Profiling
-*.hprof
-
-# Lint / reports
-lint/intermediates/
-lint/generated/
-lint/outputs/
-lint/tmp/
-
-# Scratch / leftover experiments
-hello_world.jar
+# Scratch / local experiments
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
 hello_world.kt
