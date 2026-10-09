@@ -1,0 +1,60 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# Gradle files
+.gradle/
+build/
+**/build/
+
+# Local configuration (SDK paths, machine-specific)
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+captures/
+.navigation/
+*.hprof
+
+# VS Code
+.vscode/
+
+# Kotlin
+.kotlin/
+
+# NDK
+obj/
+.externalNativeBuild/
+.cxx/
+
+# Keystores (never commit secrets)
+*.jks
+*.keystore
+
+# Google Services (uncomment if this file contains secrets)
+# google-services.json
+
+# Log / OS / temp
+*.log
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Scratch / local experiments
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+hello_world.kt

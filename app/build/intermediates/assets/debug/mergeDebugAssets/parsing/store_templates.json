@@ -1,9 +1,0 @@
-{
-  "stores": [
-    {
-      "id": "mercadona",
-      "name": "Mercadona",
-      "headerPatterns": ["MERCADONA", "mercadona"]
-    }
-  ]
-}
