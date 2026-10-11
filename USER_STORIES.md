@@ -40,10 +40,10 @@ Como usuario, quiero que la app mejore la calidad del ticket capturado, para que
 ### HU-2.1 — Extraer texto del ticket (OCR)
 Como usuario, quiero que la app lea el texto del ticket automáticamente, para no tener que introducir los datos a mano.
 
-- [ ] Integrar ML Kit Text Recognition v2 sobre la imagen limpia
-- [ ] Guardar el texto en bruto (`rawOcrText`) asociado al ticket
-- [ ] Mostrar pantalla de "procesando" mientras corre el OCR
-- [ ] Manejar tickets con texto ilegible (marcar como "requiere revisión manual")
+- [x] Integrar ML Kit Text Recognition v2 sobre la imagen limpia (`MlKitTextRecognitionGateway`)
+- [x] Guardar el texto en bruto (`rawOcrText`) asociado al ticket (`TicketRepository.saveScannedTicket`)
+- [x] Mostrar pantalla de "procesando" mientras corre el OCR (`CaptureUiState.RecognizingText`)
+- [x] Manejar tickets con texto ilegible (marcar como "requiere revisión manual": `TicketStatus.NEEDS_MANUAL_REVIEW` vía `OcrReadabilityEvaluator`)
 
 ### HU-2.2 — Detectar el comercio del ticket
 Como usuario, quiero que la app identifique automáticamente el supermercado o tienda, para no tener que seleccionarlo manualmente cada vez.

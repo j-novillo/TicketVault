@@ -9,6 +9,8 @@
     <string name="capture_scan_button">Escanear ticket</string>
     <string name="capture_camera_permission_denied">Permiso de cámara denegado. Puedes escanear el ticket con el botón inferior.</string>
     <string name="capture_success_message">Ticket capturado correctamente</string>
+    <string name="capture_processing_ocr">Leyendo el texto del ticket…</string>
+    <string name="capture_success_needs_review">No se pudo leer bien el texto. El ticket queda marcado para revisión manual.</string>
     <string name="capture_success_thumbnail">Vista previa del ticket capturado</string>
     <string name="capture_error_cancelled">Escaneo cancelado</string>
     <string name="capture_error_scan_failed">No se pudo capturar el ticket</string>

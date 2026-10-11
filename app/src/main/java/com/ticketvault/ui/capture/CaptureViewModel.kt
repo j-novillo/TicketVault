@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ticketvault.camera.DocumentScannerGateway
 import com.ticketvault.camera.ScanParseResult
+import com.ticketvault.data.local.entity.TicketStatus
 import com.ticketvault.domain.usecase.ProcessImageError
 import com.ticketvault.domain.usecase.ProcessScannedImageUseCase
+import com.ticketvault.domain.usecase.RecognizeTicketTextUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +26,7 @@ import javax.inject.Inject
 class CaptureViewModel @Inject constructor(
     private val documentScannerGateway: DocumentScannerGateway,
     private val processScannedImageUseCase: ProcessScannedImageUseCase,
+    private val recognizeTicketTextUseCase: RecognizeTicketTextUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CaptureUiState>(CaptureUiState.Idle)
@@ -37,7 +40,8 @@ class CaptureViewModel @Inject constructor(
 
     fun requestScan(activity: Activity) {
         if (_uiState.value is CaptureUiState.RequestingScan ||
-            _uiState.value is CaptureUiState.Saving
+            _uiState.value is CaptureUiState.Saving ||
+            _uiState.value is CaptureUiState.RecognizingText
         ) {
             return
         }
@@ -80,26 +84,37 @@ class CaptureViewModel @Inject constructor(
     private fun persistImage(sourceUri: android.net.Uri) {
         _uiState.update { CaptureUiState.Saving }
         viewModelScope.launch {
-            processScannedImageUseCase(sourceUri)
-                .onSuccess { processed ->
-                    _uiState.update {
-                        CaptureUiState.Success(
-                            cleanedPath = processed.cleanedPath,
-                            originalPath = processed.originalPath,
-                        )
-                    }
-                }
-                .onFailure { error ->
-                    _uiState.update { CaptureUiState.Idle }
-                    _errors.emit(
-                        when (error) {
-                            is ProcessImageError.Validation -> CaptureError.InvalidImage
-                            is ProcessImageError.EnhanceFailed -> CaptureError.EnhanceFailed
-                            is ProcessImageError.SaveFailed -> CaptureError.SaveFailed
-                            else -> CaptureError.SaveFailed
-                        },
-                    )
-                }
+            val processed = processScannedImageUseCase(sourceUri).getOrElse { error ->
+                onProcessingFailed(error)
+                return@launch
+            }
+
+            _uiState.update { CaptureUiState.RecognizingText }
+            val recognized = recognizeTicketTextUseCase(processed).getOrElse { error ->
+                onProcessingFailed(error)
+                return@launch
+            }
+
+            _uiState.update {
+                CaptureUiState.Success(
+                    cleanedPath = processed.cleanedPath,
+                    originalPath = processed.originalPath,
+                    ticketId = recognized.ticketId,
+                    needsManualReview = recognized.status == TicketStatus.NEEDS_MANUAL_REVIEW,
+                )
+            }
         }
+    }
+
+    private suspend fun onProcessingFailed(error: Throwable) {
+        _uiState.update { CaptureUiState.Idle }
+        _errors.emit(
+            when (error) {
+                is ProcessImageError.Validation -> CaptureError.InvalidImage
+                is ProcessImageError.EnhanceFailed -> CaptureError.EnhanceFailed
+                is ProcessImageError.SaveFailed -> CaptureError.SaveFailed
+                else -> CaptureError.SaveFailed
+            },
+        )
     }
 }

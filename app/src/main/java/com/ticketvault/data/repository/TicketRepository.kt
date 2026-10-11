@@ -1,6 +1,8 @@
 package com.ticketvault.data.repository
 
 import com.ticketvault.data.local.dao.TicketDao
+import com.ticketvault.data.local.entity.TicketEntity
+import com.ticketvault.data.local.entity.TicketStatus
 import com.ticketvault.domain.model.Ticket
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,7 +21,27 @@ class TicketRepository @Inject constructor(
                     storeName = null,
                     date = entity.date,
                     total = entity.total,
+                    status = entity.status,
                 )
             }
         }
+
+    suspend fun saveScannedTicket(
+        originalImagePath: String,
+        cleanedImagePath: String,
+        rawOcrText: String?,
+        status: TicketStatus,
+    ): Long = ticketDao.insert(
+        TicketEntity(
+            storeId = null,
+            capturedAt = System.currentTimeMillis(),
+            date = null,
+            time = null,
+            total = null,
+            originalImageUri = originalImagePath,
+            cleanedImageUri = cleanedImagePath,
+            rawOcrText = rawOcrText,
+            status = status,
+        ),
+    )
 }

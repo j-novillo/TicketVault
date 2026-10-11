@@ -22,7 +22,7 @@ interface StoreDao {
 
 @Dao
 interface TicketDao {
-    @Query("SELECT * FROM tickets ORDER BY date DESC")
+    @Query("SELECT * FROM tickets ORDER BY capturedAt DESC")
     fun observeAll(): Flow<List<TicketEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

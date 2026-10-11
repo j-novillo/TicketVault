@@ -5,6 +5,8 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -80,7 +82,9 @@ fun CaptureScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = {
-            val isBusy = uiState is CaptureUiState.RequestingScan || uiState is CaptureUiState.Saving
+            val isBusy = uiState is CaptureUiState.RequestingScan ||
+                uiState is CaptureUiState.Saving ||
+                uiState is CaptureUiState.RecognizingText
             ExtendedFloatingActionButton(
                 text = { Text(stringResource(R.string.capture_scan_button)) },
                 icon = {
@@ -120,6 +124,24 @@ fun CaptureScreen(
                     }
                 }
 
+                CaptureUiState.RecognizingText -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        CircularProgressIndicator()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = stringResource(R.string.capture_processing_ocr),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                }
+
                 is CaptureUiState.Success -> {
                     Column(
                         modifier = Modifier
@@ -133,6 +155,14 @@ fun CaptureScreen(
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
+                        if (state.needsManualReview) {
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = stringResource(R.string.capture_success_needs_review),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
                         Spacer(modifier = Modifier.height(12.dp))
                         AsyncImage(
                             model = File(state.cleanedPath),

@@ -28,13 +28,20 @@ data class StoreEntity(
 data class TicketEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val storeId: Long?,
-    val date: String,
+    val capturedAt: Long,
+    val date: String?,
     val time: String?,
-    val total: Double,
+    val total: Double?,
     val originalImageUri: String?,
     val cleanedImageUri: String?,
     val rawOcrText: String?,
+    val status: TicketStatus,
 )
+
+enum class TicketStatus {
+    OCR_COMPLETED,
+    NEEDS_MANUAL_REVIEW,
+}
 
 @Entity(
     tableName = "ticket_items",

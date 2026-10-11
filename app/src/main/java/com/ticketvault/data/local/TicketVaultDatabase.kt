@@ -19,7 +19,7 @@ import com.ticketvault.data.local.entity.TicketItemEntity
         CategoryEntity::class,
         SubcategoryEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 abstract class TicketVaultDatabase : RoomDatabase() {
