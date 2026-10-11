@@ -78,6 +78,15 @@ data class TicketItemEntity(
     val subcategory: String?,
 )
 
+/** Categoría corregida por el usuario para un artículo; prevalece sobre el diccionario de palabras clave. */
+@Entity(tableName = "product_category_rules")
+data class ProductCategoryRuleEntity(
+    /** Nombre del artículo normalizado (`ProductNameTokenizer.normalize`). */
+    @PrimaryKey val normalizedName: String,
+    val category: String,
+    val subcategory: String?,
+)
+
 @Entity(tableName = "categories")
 data class CategoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,

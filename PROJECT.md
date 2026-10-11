@@ -55,6 +55,7 @@ app/
 - **TicketItem** (id, ticketId, nombreProducto, cantidad, precioUnitario, precioTotal, category, subcategory)
 - **Category** (id, nombre) — Supermercado / Comida / No comestible
 - **Subcategory** (id, categoryId, nombre) — Frescos(Carne, Pescado, Fruta, Verdura), Procesados, etc.
+- **ProductCategoryRule** (nombreNormalizado, category, subcategory) — correcciones de categoría aprendidas del usuario
 
 ## 6. Flujo funcional end-to-end
 1. Usuario captura foto o importa de galería (ambos vía Document Scanner GMS, con `setGalleryImportAllowed(true)`).
@@ -62,7 +63,7 @@ app/
 3. ML Kit Text Recognition extrae texto en bruto.
 4. Módulo `parsing` detecta el comercio (por cabecera/logo textual) y aplica la plantilla correspondiente (o un parser genérico si no hay plantilla).
 5. Se extraen: fecha, comercio, líneas de artículo (nombre, cantidad, precio) y total. El usuario los revisa y corrige en la pantalla de revisión (`ui/review`) antes de guardarlos.
-6. Módulo `classification` asigna categoría/subcategoría a cada artículo (por diccionario de palabras clave, editable por el usuario si falla).
+6. Módulo `classification` asigna categoría/subcategoría a cada artículo (por diccionario de palabras clave `assets/classification/keywords.json`). En la revisión el usuario puede reclasificarlo; la corrección se guarda en `product_category_rules` y prevalece sobre el diccionario en próximos tickets.
 7. Se guarda todo en Room (`Ticket` + `TicketItem`s).
 8. Las pantallas de métricas consultan Room (vía DAOs con Flow) y renderizan gráficos.
 

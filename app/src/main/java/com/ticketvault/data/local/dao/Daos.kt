@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.ticketvault.data.local.entity.CategoryEntity
+import com.ticketvault.data.local.entity.ProductCategoryRuleEntity
 import com.ticketvault.data.local.entity.StoreEntity
 import com.ticketvault.data.local.entity.SubcategoryEntity
 import com.ticketvault.data.local.entity.TicketEntity
@@ -81,6 +82,15 @@ interface TicketDao {
         deleteItems(ticket.id)
         insertItems(items)
     }
+}
+
+@Dao
+interface ProductCategoryRuleDao {
+    @Query("SELECT * FROM product_category_rules WHERE normalizedName IN (:normalizedNames)")
+    suspend fun findByNames(normalizedNames: List<String>): List<ProductCategoryRuleEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsert(rules: List<ProductCategoryRuleEntity>)
 }
 
 @Dao

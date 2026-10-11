@@ -1,5 +1,6 @@
 package com.ticketvault.domain.model
 
+import com.ticketvault.classification.ProductCategory
 import com.ticketvault.data.local.entity.TicketStatus
 import java.time.LocalDate
 import java.time.LocalTime
@@ -34,4 +35,7 @@ data class ReviewedTicketItem(
     val quantity: Double,
     val unitPrice: Double?,
     val totalPrice: Double,
+    val category: ProductCategory? = null,
+    /** El usuario eligió la categoría a mano; se aprende para próximas clasificaciones. */
+    val isCategoryCorrected: Boolean = false,
 )

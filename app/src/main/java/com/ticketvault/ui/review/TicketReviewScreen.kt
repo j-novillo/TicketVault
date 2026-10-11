@@ -18,7 +18,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -73,6 +77,7 @@ fun TicketReviewScreen(
     val currentOnSaved by rememberUpdatedState(onSaved)
     var showStorePicker by rememberSaveable { mutableStateOf(false) }
     var showImage by rememberSaveable { mutableStateOf(false) }
+    var categoryPickerItemKey by rememberSaveable { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(viewModel, context) {
         viewModel.events.collect { event ->
@@ -162,9 +167,23 @@ fun TicketReviewScreen(
                     onTimeChange = viewModel::onTimeChange,
                     onTotalChange = viewModel::onTotalChange,
                     onItemChange = viewModel::onItemChange,
+                    onItemCategoryClick = { key -> categoryPickerItemKey = key },
                     onAddItem = viewModel::addItem,
                     onRemoveItem = viewModel::removeItem,
                 )
+
+                state.draft.items.find { it.key == categoryPickerItemKey }?.let { item ->
+                    CategoryPickerDialog(
+                        productName = item.name,
+                        categories = state.categories,
+                        selected = item.category,
+                        onCategorySelected = { category ->
+                            categoryPickerItemKey = null
+                            viewModel.onItemCategoryChange(item.key, category)
+                        },
+                        onDismiss = { categoryPickerItemKey = null },
+                    )
+                }
 
                 if (showStorePicker) {
                     StorePickerDialog(
@@ -210,6 +229,7 @@ private fun TicketReviewContent(
     onTimeChange: (String) -> Unit,
     onTotalChange: (String) -> Unit,
     onItemChange: (TicketItemDraft) -> Unit,
+    onItemCategoryClick: (Long) -> Unit,
     onAddItem: () -> Unit,
     onRemoveItem: (Long) -> Unit,
 ) {
@@ -337,6 +357,7 @@ private fun TicketReviewContent(
                 item = item,
                 showErrors = state.showErrors,
                 onChange = onItemChange,
+                onCategoryClick = { onItemCategoryClick(item.key) },
                 onRemove = { onRemoveItem(item.key) },
             )
         }
@@ -348,6 +369,7 @@ private fun TicketItemEditor(
     item: TicketItemDraft,
     showErrors: Boolean,
     onChange: (TicketItemDraft) -> Unit,
+    onCategoryClick: () -> Unit,
     onRemove: () -> Unit,
 ) {
     OutlinedCard {
@@ -394,6 +416,32 @@ private fun TicketItemEditor(
                     modifier = Modifier.weight(1f),
                 )
             }
+            AssistChip(
+                onClick = onCategoryClick,
+                label = {
+                    Text(
+                        item.category?.let { category ->
+                            category.subcategory?.let {
+                                stringResource(R.string.review_item_category, category.category, it)
+                            } ?: category.category
+                        } ?: stringResource(R.string.category_unclassified),
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Category,
+                        contentDescription = stringResource(R.string.review_item_category_change),
+                        modifier = Modifier.size(AssistChipDefaults.IconSize),
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier.size(AssistChipDefaults.IconSize),
+                    )
+                },
+            )
         }
     }
 }

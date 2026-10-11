@@ -1,5 +1,6 @@
 package com.ticketvault.ui.review
 
+import com.ticketvault.classification.ProductCategory
 import com.ticketvault.domain.model.ReviewedTicket
 import com.ticketvault.domain.model.ReviewedTicketItem
 import com.ticketvault.parsing.ParsedTicket
@@ -58,6 +59,45 @@ class TicketDraftTest {
                 ),
             ),
             draft.toReviewedTicket(),
+        )
+    }
+
+    @Test
+    fun withSuggestedCategories_keepsManualCorrections() {
+        val fruta = ProductCategory("Comida", "Fruta")
+        val higiene = ProductCategory("No comestible", "Higiene personal")
+        val draft = TicketDraft(
+            date = "",
+            time = "",
+            total = "",
+            items = listOf(
+                TicketItemDraft(key = 0L, name = "PLATANO"),
+                TicketItemDraft(key = 1L, name = "LECHE LIMPIADORA", category = higiene, isCategoryCorrected = true),
+            ),
+        )
+
+        val classified = draft.withSuggestedCategories(listOf(fruta, ProductCategory("Comida", "Lácteos")))
+
+        assertEquals(listOf(fruta, higiene), classified.items.map { it.category })
+    }
+
+    @Test
+    fun toReviewedTicket_keepsCategoriesAndCorrections() {
+        val higiene = ProductCategory("No comestible", "Higiene personal")
+        val item = TicketItemDraft(
+            key = 0L,
+            name = "LECHE LIMPIADORA",
+            totalPrice = "2,00",
+            category = higiene,
+            isCategoryCorrected = true,
+        )
+
+        val reviewedItem = TicketDraft(date = "", time = "", total = "", items = listOf(item))
+            .toReviewedTicket()?.items?.single()
+
+        assertEquals(
+            ReviewedTicketItem("LECHE LIMPIADORA", 1.0, null, 2.0, category = higiene, isCategoryCorrected = true),
+            reviewedItem,
         )
     }
 

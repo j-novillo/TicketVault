@@ -82,8 +82,8 @@ class TicketRepository @Inject constructor(
                     quantity = item.quantity,
                     unitPrice = item.unitPrice,
                     totalPrice = item.totalPrice,
-                    category = null,
-                    subcategory = null,
+                    category = item.category?.category,
+                    subcategory = item.category?.subcategory,
                 )
             },
         )

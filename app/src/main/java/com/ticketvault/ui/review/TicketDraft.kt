@@ -1,5 +1,6 @@
 package com.ticketvault.ui.review
 
+import com.ticketvault.classification.ProductCategory
 import com.ticketvault.domain.model.ReviewedTicket
 import com.ticketvault.domain.model.ReviewedTicketItem
 import com.ticketvault.parsing.ParsedTicket
@@ -20,6 +21,9 @@ data class TicketItemDraft(
     val quantity: String = "1",
     val unitPrice: String = "",
     val totalPrice: String = "",
+    val category: ProductCategory? = null,
+    /** Elegida a mano: ya no se reclasifica al editar el nombre. */
+    val isCategoryCorrected: Boolean = false,
 ) {
     val isBlank: Boolean get() = name.isBlank() && unitPrice.isBlank() && totalPrice.isBlank()
     val nameError: Boolean get() = !isBlank && name.isBlank()
@@ -53,10 +57,19 @@ data class TicketDraft(
                     quantity = TicketDraftFormat.parseQuantity(item.quantity) ?: 1.0,
                     unitPrice = TicketDraftFormat.parseAmount(item.unitPrice),
                     totalPrice = checkNotNull(TicketDraftFormat.parseAmount(item.totalPrice)),
+                    category = item.category,
+                    isCategoryCorrected = item.isCategoryCorrected,
                 )
             },
         )
     }
+
+    /** Aplica la clasificación automática (una por artículo), respetando las categorías elegidas a mano. */
+    fun withSuggestedCategories(categories: List<ProductCategory?>): TicketDraft = copy(
+        items = items.mapIndexed { index, item ->
+            if (item.isCategoryCorrected) item else item.copy(category = categories.getOrNull(index))
+        },
+    )
 
     companion object {
         fun from(parsed: ParsedTicket, nextKey: () -> Long) = TicketDraft(

@@ -1,5 +1,6 @@
 package com.ticketvault.ui.review
 
+import com.ticketvault.classification.CategoryDefinition
 import com.ticketvault.domain.model.Store
 
 sealed interface TicketReviewUiState {
@@ -12,6 +13,8 @@ sealed interface TicketReviewUiState {
         val needsManualReview: Boolean,
         val store: Store?,
         val draft: TicketDraft,
+        /** Opciones para reclasificar artículos a mano. */
+        val categories: List<CategoryDefinition> = emptyList(),
         /** Tras editar a mano no se vuelve a parsear al cambiar el comercio, para no perder cambios. */
         val isEdited: Boolean = false,
         val showErrors: Boolean = false,

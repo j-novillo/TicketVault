@@ -67,10 +67,12 @@ Como usuario, quiero que la app extraiga cada artículo, su cantidad y su precio
 ### HU-2.4 — Clasificar artículos por categoría
 Como usuario, quiero que cada artículo se clasifique automáticamente en comida/no comestible y en subcategoría (carne, pescado, fruta, verdura, procesados...), para poder analizar mis gastos por tipo de producto.
 
-- [ ] Crear diccionario local de palabras clave → categoría/subcategoría (JSON editable)
-- [ ] Implementar función de clasificación (match de palabras clave sobre el nombre del artículo)
-- [ ] Permitir al usuario corregir/reclasificar un artículo manualmente
-- [ ] Persistir las correcciones para mejorar futuras clasificaciones (aprendizaje simple por diccionario de usuario)
+- [x] Crear diccionario local de palabras clave → categoría/subcategoría (JSON editable) (`assets/classification/keywords.json`: Comida / No comestible y sus subcategorías)
+- [x] Implementar función de clasificación (match de palabras clave sobre el nombre del artículo) (`KeywordProductClassifier`: palabras completas sin tildes, admite plurales e ignora palabras vacías; gana la palabra clave más larga)
+- [x] Permitir al usuario corregir/reclasificar un artículo manualmente (chip de categoría en cada artículo de `TicketReviewScreen` + `CategoryPickerDialog`)
+- [x] Persistir las correcciones para mejorar futuras clasificaciones (aprendizaje simple por diccionario de usuario) (tabla `product_category_rules` por nombre de artículo normalizado; `SaveReviewedTicketUseCase` la actualiza al guardar y `ProductClassificationRepository` la consulta antes que el diccionario)
+
+> **Pendiente de validar con tickets reales:** las palabras clave cubren nombres habituales; las abreviaturas propias de cada cadena se irán resolviendo con las correcciones del usuario o ampliando el JSON.
 
 ---
 

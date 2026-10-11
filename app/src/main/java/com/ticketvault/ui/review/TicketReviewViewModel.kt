@@ -3,10 +3,14 @@ package com.ticketvault.ui.review
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ticketvault.classification.CategoryDefinition
+import com.ticketvault.classification.ProductCategory
 import com.ticketvault.data.local.entity.TicketStatus
+import com.ticketvault.data.repository.ProductClassificationRepository
 import com.ticketvault.data.repository.StoreRepository
 import com.ticketvault.domain.model.Store
 import com.ticketvault.domain.usecase.AssignTicketStoreUseCase
+import com.ticketvault.domain.usecase.ClassifyProductsUseCase
 import com.ticketvault.domain.usecase.ExtractTicketDataUseCase
 import com.ticketvault.domain.usecase.SaveReviewedTicketUseCase
 import com.ticketvault.domain.usecase.TicketExtraction
@@ -22,6 +26,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 class TicketReviewViewModel @Inject constructor(
@@ -29,6 +34,8 @@ class TicketReviewViewModel @Inject constructor(
     private val extractTicketDataUseCase: ExtractTicketDataUseCase,
     private val saveReviewedTicketUseCase: SaveReviewedTicketUseCase,
     private val assignTicketStoreUseCase: AssignTicketStoreUseCase,
+    private val classifyProductsUseCase: ClassifyProductsUseCase,
+    private val classificationRepository: ProductClassificationRepository,
     storeRepository: StoreRepository,
 ) : ViewModel() {
 
@@ -46,16 +53,17 @@ class TicketReviewViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            extractTicketDataUseCase(ticketId)
-                .onSuccess { extraction ->
-                    _uiState.value = TicketReviewUiState.Editing(
-                        cleanedImagePath = extraction.ticket.cleanedImagePath,
-                        needsManualReview = extraction.ticket.status == TicketStatus.NEEDS_MANUAL_REVIEW,
-                        store = extraction.store,
-                        draft = extraction.toDraft(),
-                    )
-                }
-                .onFailure { _uiState.value = TicketReviewUiState.LoadFailed }
+            val extraction = extractTicketDataUseCase(ticketId).getOrElse {
+                _uiState.value = TicketReviewUiState.LoadFailed
+                return@launch
+            }
+            _uiState.value = TicketReviewUiState.Editing(
+                cleanedImagePath = extraction.ticket.cleanedImagePath,
+                needsManualReview = extraction.ticket.status == TicketStatus.NEEDS_MANUAL_REVIEW,
+                store = extraction.store,
+                draft = classify(extraction.toDraft()),
+                categories = loadCategories(),
+            )
         }
     }
 
@@ -65,8 +73,17 @@ class TicketReviewViewModel @Inject constructor(
 
     fun onTotalChange(value: String) = editDraft { it.copy(total = value) }
 
-    fun onItemChange(item: TicketItemDraft) = editDraft { draft ->
-        draft.copy(items = draft.items.map { if (it.key == item.key) item else it })
+    fun onItemChange(item: TicketItemDraft) {
+        val previous = (_uiState.value as? TicketReviewUiState.Editing)?.draft?.items?.find { it.key == item.key }
+        replaceItem(item)
+        if (previous != null && previous.name != item.name && !item.isCategoryCorrected) {
+            reclassifyItem(item.key, item.name)
+        }
+    }
+
+    fun onItemCategoryChange(key: Long, category: ProductCategory?) {
+        val item = (_uiState.value as? TicketReviewUiState.Editing)?.draft?.items?.find { it.key == key } ?: return
+        replaceItem(item.copy(category = category, isCategoryCorrected = true))
     }
 
     fun addItem() = editDraft { it.copy(items = it.items + TicketItemDraft(key = nextItemKey++)) }
@@ -113,10 +130,46 @@ class TicketReviewViewModel @Inject constructor(
         // Otro comercio puede tener otra plantilla de parsing.
         val editing = _uiState.value as? TicketReviewUiState.Editing ?: return
         if (editing.isEdited) return
-        extractTicketDataUseCase(ticketId).onSuccess { extraction ->
-            updateEditing { state -> if (state.isEdited) state else state.copy(draft = extraction.toDraft()) }
+        val extraction = extractTicketDataUseCase(ticketId).getOrNull() ?: return
+        val draft = classify(extraction.toDraft())
+        updateEditing { state -> if (state.isEdited) state else state.copy(draft = draft) }
+    }
+
+    private fun replaceItem(item: TicketItemDraft) = editDraft { draft ->
+        draft.copy(items = draft.items.map { if (it.key == item.key) item else it })
+    }
+
+    private fun reclassifyItem(key: Long, name: String) {
+        viewModelScope.launch {
+            val category = classifyProductsUseCase(listOf(name)).firstOrNull()
+            updateEditing { state ->
+                state.copy(
+                    draft = state.draft.copy(
+                        items = state.draft.items.map { item ->
+                            // Si el usuario ha seguido escribiendo, el resultado ya no aplica.
+                            if (item.key == key && item.name == name && !item.isCategoryCorrected) {
+                                item.copy(category = category)
+                            } else {
+                                item
+                            }
+                        },
+                    ),
+                )
+            }
         }
     }
+
+    private suspend fun classify(draft: TicketDraft): TicketDraft =
+        draft.withSuggestedCategories(classifyProductsUseCase(draft.items.map { it.name }))
+
+    private suspend fun loadCategories(): List<CategoryDefinition> =
+        try {
+            classificationRepository.getCategories()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            emptyList()
+        }
 
     private fun editDraft(transform: (TicketDraft) -> TicketDraft) =
         updateEditing { it.copy(draft = transform(it.draft), isEdited = true) }

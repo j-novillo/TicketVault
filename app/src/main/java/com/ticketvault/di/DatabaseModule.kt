@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.ticketvault.data.local.TicketVaultDatabase
 import com.ticketvault.data.local.dao.CategoryDao
+import com.ticketvault.data.local.dao.ProductCategoryRuleDao
 import com.ticketvault.data.local.dao.StoreDao
 import com.ticketvault.data.local.dao.TicketDao
 import dagger.Module
@@ -37,4 +38,8 @@ object DatabaseModule {
 
     @Provides
     fun provideCategoryDao(database: TicketVaultDatabase): CategoryDao = database.categoryDao()
+
+    @Provides
+    fun provideProductCategoryRuleDao(database: TicketVaultDatabase): ProductCategoryRuleDao =
+        database.productCategoryRuleDao()
 }

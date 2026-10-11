@@ -1,9 +1,139 @@
 {
-  "keywords": [
+  "categories": [
     {
-      "pattern": "leche",
-      "category": "Comida",
-      "subcategory": "Lácteos"
+      "name": "Comida",
+      "subcategories": [
+        {
+          "name": "Carne",
+          "keywords": [
+            "carne", "pollo", "pechuga", "muslo", "contramuslo", "alitas", "ternera", "vacuno", "añojo",
+            "cerdo", "lomo", "costilla", "chuleta", "solomillo", "filete", "hamburguesa", "carne picada",
+            "picada", "cordero", "conejo", "pavo", "secreto", "presa", "pluma", "entrecot", "magro",
+            "codillo", "carrillada", "albóndiga"
+          ]
+        },
+        {
+          "name": "Pescado",
+          "keywords": [
+            "pescado", "marisco", "merluza", "salmón", "bacalao", "dorada", "lubina", "sardina", "boquerón",
+            "gamba", "langostino", "mejillón", "calamar", "sepia", "pulpo", "rape", "emperador", "pez espada",
+            "trucha", "caballa", "atún", "bonito", "anchoa", "almeja", "berberecho", "navaja", "lenguado"
+          ]
+        },
+        {
+          "name": "Fruta",
+          "keywords": [
+            "fruta", "plátano", "banana", "manzana", "pera", "naranja", "mandarina", "limón", "uva", "fresa",
+            "fresón", "kiwi", "melón", "sandía", "piña", "melocotón", "nectarina", "paraguayo", "albaricoque",
+            "cereza", "ciruela", "mango", "aguacate", "papaya", "frambuesa", "arándano", "granada", "higo",
+            "caqui", "chirimoya", "pomelo"
+          ]
+        },
+        {
+          "name": "Verdura",
+          "keywords": [
+            "verdura", "hortaliza", "tomate", "lechuga", "cebolla", "cebolleta", "ajo", "patata", "zanahoria",
+            "pimiento", "calabacín", "berenjena", "pepino", "brócoli", "coliflor", "espinaca", "judía verde",
+            "puerro", "apio", "champiñón", "seta", "calabaza", "alcachofa", "espárrago", "col", "repollo",
+            "rúcula", "canónigo", "ensalada", "perejil", "cilantro", "boniato", "guisante", "remolacha"
+          ]
+        },
+        {
+          "name": "Lácteos y huevos",
+          "keywords": [
+            "leche", "yogur", "yogurt", "queso", "mantequilla", "nata", "kéfir", "cuajada", "natillas", "flan",
+            "batido", "petit", "requesón", "mozzarella", "huevo", "huevos camperos", "margarina"
+          ]
+        },
+        {
+          "name": "Panadería y bollería",
+          "keywords": [
+            "pan", "pan de molde", "baguette", "chapata", "croissant", "cruasán", "magdalena", "bizcocho",
+            "donut", "napolitana", "ensaimada", "tostadas", "biscote", "picos", "regañás", "colines", "palmera",
+            "bollo"
+          ]
+        },
+        {
+          "name": "Despensa",
+          "keywords": [
+            "arroz", "pasta", "macarrón", "espagueti", "spaghetti", "tallarín", "fideo", "lenteja", "garbanzo",
+            "alubia", "legumbre", "aceite", "aceite de oliva", "vinagre", "sal", "azúcar", "harina",
+            "tomate frito", "tomate triturado", "salsa", "mayonesa", "ketchup", "mostaza", "especias",
+            "pimienta", "orégano", "caldo", "conserva", "maíz", "aceituna", "café", "cápsulas café", "infusión",
+            "manzanilla", "cacao", "cola cao", "colacao", "cereales", "muesli", "copos de avena", "miel",
+            "mermelada", "pan rallado", "levadura", "tomate natural"
+          ]
+        },
+        {
+          "name": "Procesados",
+          "keywords": [
+            "pizza", "lasaña", "croqueta", "empanadilla", "nugget", "salchicha", "chorizo", "jamón",
+            "jamón serrano", "jamón cocido", "fiambre", "mortadela", "salami", "salchichón", "fuet",
+            "lomo embuchado", "bacon", "beicon", "pechuga de pavo", "pavo braseado", "surimi",
+            "palitos de cangrejo", "gazpacho", "salmorejo", "hummus", "tortilla", "tortilla de patata", "sopa",
+            "precocinado", "sándwich", "san jacobo", "rebozado", "varitas de merluza", "morcilla", "paté",
+            "sobrasada"
+          ]
+        },
+        {
+          "name": "Dulces y snacks",
+          "keywords": [
+            "chocolate", "galleta", "patatas fritas", "chips", "snack", "palomitas", "gominola", "caramelo",
+            "chicle", "helado", "turrón", "bombón", "cacahuete", "almendra", "nuez", "nueces", "pistacho",
+            "anacardo", "pipas", "avellana", "frutos secos", "nachos", "crema de cacao", "nocilla", "nutella",
+            "barrita"
+          ]
+        },
+        {
+          "name": "Bebidas",
+          "keywords": [
+            "agua", "refresco", "cola", "coca cola", "fanta", "zumo", "néctar", "cerveza", "vino", "cava",
+            "sidra", "whisky", "ron", "ginebra", "vodka", "licor", "tónica", "gaseosa", "bebida", "isotónica",
+            "aquarius", "bebida de avena", "bebida de soja", "bebida de almendra", "horchata", "red bull",
+            "bebida energética", "té frío"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "No comestible",
+      "subcategories": [
+        {
+          "name": "Limpieza",
+          "keywords": [
+            "detergente", "suavizante", "lejía", "friegasuelos", "lavavajillas", "limpiador", "limpiahogar",
+            "multiusos", "desengrasante", "lavaplatos", "estropajo", "bayeta", "fregona", "quitagrasas",
+            "ambientador", "insecticida", "bolsa de basura", "limpiacristales",
+            "jabón lavadora", "jabón ropa", "quitamanchas", "lavadora"
+          ]
+        },
+        {
+          "name": "Higiene personal",
+          "keywords": [
+            "champú", "gel", "gel de baño", "jabón", "jabón de manos", "desodorante", "pasta de dientes",
+            "dentífrico", "cepillo de dientes", "cepillo dental", "colutorio", "enjuague bucal", "hilo dental",
+            "crema hidratante", "crema corporal", "crema facial", "crema de manos", "maquinilla", "cuchilla",
+            "espuma de afeitar", "compresa", "tampón", "salvaslip", "pañuelos", "papel higiénico", "toallitas",
+            "bastoncillo", "algodón", "desmaquillante", "agua micelar", "protector solar", "after sun", "laca",
+            "acondicionador", "mascarilla", "tinte", "colonia", "perfume", "pañal", "agua oxigenada"
+          ]
+        },
+        {
+          "name": "Hogar",
+          "keywords": [
+            "pilas", "bombilla", "vela", "mechero", "cerillas", "bolsa", "papel de aluminio",
+            "papel film", "film transparente", "papel de cocina", "rollo de cocina", "servilleta",
+            "papel de horno", "platos desechables", "vasos desechables", "carbón"
+          ]
+        },
+        {
+          "name": "Mascotas",
+          "keywords": [
+            "pienso", "mascota", "perro", "gato", "arena para gatos", "comida para perros", "comida para gatos",
+            "snack perro"
+          ]
+        }
+      ]
     }
   ]
 }
