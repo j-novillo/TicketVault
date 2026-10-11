@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,10 +27,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +54,8 @@ fun CaptureScreen(
     viewModel: CaptureViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val stores by viewModel.stores.collectAsStateWithLifecycle()
+    var showStorePicker by rememberSaveable { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val activity = LocalActivity.current
     val context = LocalContext.current
@@ -74,6 +81,7 @@ fun CaptureScreen(
                 CaptureError.EnhanceFailed -> R.string.capture_error_enhance_failed
                 CaptureError.ScannerUnavailable -> R.string.capture_error_scanner_unavailable
                 CaptureError.InvalidImage -> R.string.capture_error_invalid_image
+                CaptureError.StoreAssignFailed -> R.string.capture_error_store_assign_failed
             }
             snackbarHostState.showSnackbar(context.getString(messageRes))
         }
@@ -163,6 +171,27 @@ fun CaptureScreen(
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = state.store?.let {
+                                    stringResource(R.string.capture_store_detected, it.name)
+                                } ?: stringResource(R.string.capture_store_not_detected),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+                            TextButton(onClick = { showStorePicker = true }) {
+                                Text(
+                                    stringResource(
+                                        if (state.store == null) {
+                                            R.string.capture_store_select
+                                        } else {
+                                            R.string.capture_store_change
+                                        },
+                                    ),
+                                )
+                            }
+                        }
                         Spacer(modifier = Modifier.height(12.dp))
                         AsyncImage(
                             model = File(state.cleanedPath),
@@ -171,6 +200,22 @@ fun CaptureScreen(
                                 .size(160.dp)
                                 .clip(RoundedCornerShape(12.dp)),
                             contentScale = ContentScale.Crop,
+                        )
+                    }
+
+                    if (showStorePicker) {
+                        StorePickerDialog(
+                            stores = stores,
+                            selectedStoreId = state.store?.id,
+                            onStoreSelected = { storeId ->
+                                showStorePicker = false
+                                viewModel.assignStore(storeId)
+                            },
+                            onStoreCreated = { name ->
+                                showStorePicker = false
+                                viewModel.createAndAssignStore(name)
+                            },
+                            onDismiss = { showStorePicker = false },
                         )
                     }
                 }

@@ -14,14 +14,14 @@ class TicketRepository @Inject constructor(
     private val ticketDao: TicketDao,
 ) {
     fun observeTickets(): Flow<List<Ticket>> =
-        ticketDao.observeAll().map { entities ->
-            entities.map { entity ->
+        ticketDao.observeAllWithStoreName().map { rows ->
+            rows.map { row ->
                 Ticket(
-                    id = entity.id,
-                    storeName = null,
-                    date = entity.date,
-                    total = entity.total,
-                    status = entity.status,
+                    id = row.ticket.id,
+                    storeName = row.storeName,
+                    date = row.ticket.date,
+                    total = row.ticket.total,
+                    status = row.ticket.status,
                 )
             }
         }
@@ -31,9 +31,10 @@ class TicketRepository @Inject constructor(
         cleanedImagePath: String,
         rawOcrText: String?,
         status: TicketStatus,
+        storeId: Long?,
     ): Long = ticketDao.insert(
         TicketEntity(
-            storeId = null,
+            storeId = storeId,
             capturedAt = System.currentTimeMillis(),
             date = null,
             time = null,
@@ -44,4 +45,8 @@ class TicketRepository @Inject constructor(
             status = status,
         ),
     )
+
+    suspend fun getRawOcrText(ticketId: Long): String? = ticketDao.getById(ticketId)?.rawOcrText
+
+    suspend fun updateStore(ticketId: Long, storeId: Long) = ticketDao.updateStore(ticketId, storeId)
 }

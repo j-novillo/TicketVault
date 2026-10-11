@@ -1,16 +1,25 @@
 package com.ticketvault.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "stores")
+@Entity(
+    tableName = "stores",
+    indices = [
+        Index(value = ["name"], unique = true),
+        Index(value = ["templateId"], unique = true),
+    ],
+)
 data class StoreEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val name: String,
-    val recognitionPatterns: String,
-    val parsingTemplate: String,
+    @ColumnInfo(collate = ColumnInfo.NOCASE) val name: String,
+    val recognitionPatterns: List<String>,
+    /** Id de la plantilla de `store_templates.json`; null si lo creó el usuario. */
+    val templateId: String?,
+    val parsingTemplate: String?,
 )
 
 @Entity(

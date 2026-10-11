@@ -1,9 +1,26 @@
 {
   "stores": [
-    {
-      "id": "mercadona",
-      "name": "Mercadona",
-      "headerPatterns": ["MERCADONA", "mercadona"]
-    }
+    { "id": "mercadona", "name": "Mercadona", "headerPatterns": ["MERCADONA"] },
+    { "id": "carrefour", "name": "Carrefour", "headerPatterns": ["CARREFOUR", "CENTROS COMERCIALES CARREFOUR"] },
+    { "id": "lidl", "name": "Lidl", "headerPatterns": ["LIDL", "LIDL SUPERMERCADOS"] },
+    { "id": "dia", "name": "Dia", "headerPatterns": ["DIA RETAIL", "SUPERMERCADOS DIA", "DISTRIBUIDORA INTERNACIONAL DE ALIMENTACION"] },
+    { "id": "alcampo", "name": "Alcampo", "headerPatterns": ["ALCAMPO"] },
+    { "id": "eroski", "name": "Eroski", "headerPatterns": ["EROSKI"] },
+    { "id": "aldi", "name": "Aldi", "headerPatterns": ["ALDI", "ALDI SUPERMERCADOS"] },
+    { "id": "consum", "name": "Consum", "headerPatterns": ["CONSUM", "CONSUM S COOP"] },
+    { "id": "el_corte_ingles", "name": "El Corte Inglés", "headerPatterns": ["EL CORTE INGLES"] },
+    { "id": "hipercor", "name": "Hipercor", "headerPatterns": ["HIPERCOR"] },
+    { "id": "supercor", "name": "Supercor", "headerPatterns": ["SUPERCOR"] },
+    { "id": "ahorramas", "name": "Ahorramas", "headerPatterns": ["AHORRAMAS"] },
+    { "id": "caprabo", "name": "Caprabo", "headerPatterns": ["CAPRABO"] },
+    { "id": "bonpreu", "name": "Bonpreu", "headerPatterns": ["BONPREU", "BON PREU"] },
+    { "id": "condis", "name": "Condis", "headerPatterns": ["CONDIS"] },
+    { "id": "bm", "name": "BM Supermercados", "headerPatterns": ["BM SUPERMERCADOS", "UVESCO"] },
+    { "id": "gadis", "name": "Gadis", "headerPatterns": ["GADIS", "GADISA"] },
+    { "id": "froiz", "name": "Froiz", "headerPatterns": ["FROIZ"] },
+    { "id": "masymas", "name": "Masymas", "headerPatterns": ["MASYMAS", "MAS Y MAS"] },
+    { "id": "coviran", "name": "Covirán", "headerPatterns": ["COVIRAN"] },
+    { "id": "spar", "name": "Spar", "headerPatterns": ["SPAR"] },
+    { "id": "lupa", "name": "Supermercados Lupa", "headerPatterns": ["SUPERMERCADOS LUPA"] }
   ]
 }

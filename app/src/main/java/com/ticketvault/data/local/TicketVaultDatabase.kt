@@ -2,6 +2,7 @@ package com.ticketvault.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.ticketvault.data.local.dao.CategoryDao
 import com.ticketvault.data.local.dao.StoreDao
 import com.ticketvault.data.local.dao.TicketDao
@@ -19,9 +20,10 @@ import com.ticketvault.data.local.entity.TicketItemEntity
         CategoryEntity::class,
         SubcategoryEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = true,
 )
+@TypeConverters(Converters::class)
 abstract class TicketVaultDatabase : RoomDatabase() {
     abstract fun storeDao(): StoreDao
     abstract fun ticketDao(): TicketDao

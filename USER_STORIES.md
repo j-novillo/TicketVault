@@ -48,10 +48,10 @@ Como usuario, quiero que la app lea el texto del ticket automáticamente, para n
 ### HU-2.2 — Detectar el comercio del ticket
 Como usuario, quiero que la app identifique automáticamente el supermercado o tienda, para no tener que seleccionarlo manualmente cada vez.
 
-- [ ] Crear diccionario/plantillas de comercios frecuentes (Mercadona, Carrefour, Lidl, Dia, Alcampo, etc.) con patrones de cabecera
-- [ ] Implementar matching por texto (regex/contains sobre primeras líneas del OCR)
-- [ ] Fallback: permitir que el usuario seleccione o cree manualmente el comercio
-- [ ] Persistir la plantilla aprendida para futuras detecciones (mejora incremental)
+- [x] Crear diccionario/plantillas de comercios frecuentes (Mercadona, Carrefour, Lidl, Dia, Alcampo, etc.) con patrones de cabecera (`assets/parsing/store_templates.json`, sembrado en Room por `StoreRepository`)
+- [x] Implementar matching por texto (regex/contains sobre primeras líneas del OCR) (`StoreMatcher`: contains con límites de palabra sobre las 10 primeras líneas normalizadas)
+- [x] Fallback: permitir que el usuario seleccione o cree manualmente el comercio (`StorePickerDialog` en la pantalla de captura)
+- [x] Persistir la plantilla aprendida para futuras detecciones (mejora incremental) (`AssignTicketStoreUseCase` + `HeaderSignatureExtractor` añaden la cabecera del ticket a `StoreEntity.recognitionPatterns`)
 
 ### HU-2.3 — Extraer líneas de artículos, cantidades y precios
 Como usuario, quiero que la app extraiga cada artículo, su cantidad y su precio del ticket, para tener el detalle completo del gasto.

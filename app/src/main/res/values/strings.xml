@@ -18,4 +18,16 @@
     <string name="capture_error_enhance_failed">No se pudo preparar la imagen del ticket. Vuelve a intentarlo.</string>
     <string name="capture_error_scanner_unavailable">El escáner de documentos no está disponible</string>
     <string name="capture_error_invalid_image">La imagen no es válida (formato, tamaño o resolución). Vuelve a intentarlo.</string>
+    <string name="capture_error_store_assign_failed">No se pudo asignar el comercio. Vuelve a intentarlo.</string>
+
+    <string name="capture_store_detected">Comercio: %1$s</string>
+    <string name="capture_store_not_detected">No se ha detectado el comercio</string>
+    <string name="capture_store_change">Cambiar</string>
+    <string name="capture_store_select">Seleccionar comercio</string>
+
+    <string name="store_picker_title">Selecciona el comercio</string>
+    <string name="store_picker_search_label">Buscar o crear comercio</string>
+    <string name="store_picker_create">Crear «%1$s»</string>
+    <string name="store_picker_empty">No hay comercios</string>
+    <string name="store_picker_cancel">Cancelar</string>
 </resources>
