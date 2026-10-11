@@ -5,6 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.ticketvault.data.local.entity.CategoryEntity
 import com.ticketvault.data.local.entity.StoreEntity
@@ -62,11 +63,24 @@ interface TicketDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(ticket: TicketEntity): Long
 
+    @Update
+    suspend fun update(ticket: TicketEntity)
+
     @Query("UPDATE tickets SET storeId = :storeId WHERE id = :ticketId")
     suspend fun updateStore(ticketId: Long, storeId: Long?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItems(items: List<TicketItemEntity>)
+
+    @Query("DELETE FROM ticket_items WHERE ticketId = :ticketId")
+    suspend fun deleteItems(ticketId: Long)
+
+    @Transaction
+    suspend fun replaceTicketData(ticket: TicketEntity, items: List<TicketItemEntity>) {
+        update(ticket)
+        deleteItems(ticket.id)
+        insertItems(items)
+    }
 }
 
 @Dao

@@ -56,11 +56,13 @@ Como usuario, quiero que la app identifique automáticamente el supermercado o t
 ### HU-2.3 — Extraer líneas de artículos, cantidades y precios
 Como usuario, quiero que la app extraiga cada artículo, su cantidad y su precio del ticket, para tener el detalle completo del gasto.
 
-- [ ] Diseñar motor de parsing genérico (líneas con patrón `nombre ... cantidad x precio ... total`)
-- [ ] Implementar parsers específicos por plantilla de comercio (mayor precisión)
-- [ ] Extraer fecha, hora y total del ticket
-- [ ] Pantalla de revisión/edición manual de los datos extraídos antes de guardar
-- [ ] Guardar `Ticket` y lista de `TicketItem` en Room
+- [x] Diseñar motor de parsing genérico (líneas con patrón `nombre ... cantidad x precio ... total`) (`RuleBasedTicketParser` + `TicketLineParser`: unidades al inicio, `uds x precio`, precio unitario + importe, pesos en línea aparte, nombres partidos por el OCR y descuentos; `OcrLineAssembler` reconstruye las filas del ticket a partir de las coordenadas de ML Kit)
+- [x] Implementar parsers específicos por plantilla de comercio (mayor precisión) (`assets/parsing/parsing_templates.json`, enlazadas por `StoreEntity.parsingTemplate`; de momento Mercadona, Lidl y Carrefour, el resto usa la genérica)
+- [x] Extraer fecha, hora y total del ticket (`TicketDateTimeExtractor` y línea de total del parser)
+- [x] Pantalla de revisión/edición manual de los datos extraídos antes de guardar (`TicketReviewScreen`, se abre tras el OCR; incluye el cambio de comercio de la HU-2.2)
+- [x] Guardar `Ticket` y lista de `TicketItem` en Room (`TicketDao.replaceTicketData` en una transacción; el ticket pasa a `TicketStatus.REVIEWED`)
+
+> **Pendiente de validar con tickets reales:** las plantillas por comercio se basan en el formato habitual de cada cadena; conviene ajustarlas (y añadir más) con fotos reales.
 
 ### HU-2.4 — Clasificar artículos por categoría
 Como usuario, quiero que cada artículo se clasifique automáticamente en comida/no comestible y en subcategoría (carne, pescado, fruta, verdura, procesados...), para poder analizar mis gastos por tipo de producto.

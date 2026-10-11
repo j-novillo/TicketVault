@@ -44,6 +44,8 @@ class StoreRepository @Inject constructor(
 
     suspend fun getStore(storeId: Long): Store? = storeDao.getById(storeId)?.toDomain()
 
+    suspend fun getParsingTemplateId(storeId: Long): String? = storeDao.getById(storeId)?.parsingTemplate
+
     /** Crea el comercio o devuelve el existente si ya hay uno con ese nombre (sin distinguir mayúsculas). */
     suspend fun createStore(name: String): Store {
         ensureSeeded()

@@ -61,7 +61,7 @@ app/
 2. GMS en `SCANNER_MODE_BASE` hace detección/crop/perspectiva (sin filtros de Google). La app valida la imagen, guarda el original y aplica `TicketImageCleaner` (contraste + grayscale) → `cleaned`. Si la limpieza o el guardado fallan, se muestra error y el usuario puede reintentar el escaneo.
 3. ML Kit Text Recognition extrae texto en bruto.
 4. Módulo `parsing` detecta el comercio (por cabecera/logo textual) y aplica la plantilla correspondiente (o un parser genérico si no hay plantilla).
-5. Se extraen: fecha, comercio, líneas de artículo (nombre, cantidad, precio) y total.
+5. Se extraen: fecha, comercio, líneas de artículo (nombre, cantidad, precio) y total. El usuario los revisa y corrige en la pantalla de revisión (`ui/review`) antes de guardarlos.
 6. Módulo `classification` asigna categoría/subcategoría a cada artículo (por diccionario de palabras clave, editable por el usuario si falla).
 7. Se guarda todo en Room (`Ticket` + `TicketItem`s).
 8. Las pantallas de métricas consultan Room (vía DAOs con Flow) y renderizan gráficos.

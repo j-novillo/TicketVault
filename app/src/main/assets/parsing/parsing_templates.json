@@ -1,0 +1,20 @@
+{
+  "templates": [
+    {
+      "id": "mercadona",
+      "leadingQuantity": true,
+      "itemsStartPatterns": ["^DESCRIPCION\\b"]
+    },
+    {
+      "id": "lidl",
+      "leadingQuantity": false,
+      "itemsStartPatterns": ["^EUR$"],
+      "ignorePatterns": ["^LIDL PLUS$", "\\bCUPONES?\\b"]
+    },
+    {
+      "id": "carrefour",
+      "leadingQuantity": false,
+      "ignorePatterns": ["\\bCHEQUE AHORRO\\b", "\\bACUMULADO\\b"]
+    }
+  ]
+}

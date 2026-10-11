@@ -50,6 +50,9 @@ data class TicketEntity(
 enum class TicketStatus {
     OCR_COMPLETED,
     NEEDS_MANUAL_REVIEW,
+
+    /** El usuario ha revisado y guardado los datos extraídos (fecha, total, artículos). */
+    REVIEWED,
 }
 
 @Entity(

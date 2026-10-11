@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,12 +32,23 @@ class MlKitTextRecognitionGateway @Inject constructor(
             val image = withContext(Dispatchers.IO) {
                 InputImage.fromFilePath(context, Uri.fromFile(File(imagePath)))
             }
-            Result.success(recognizer.process(image).await().text)
+            Result.success(recognizer.process(image).await().toRowText())
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
+
+    private fun Text.toRowText(): String {
+        val lines = textBlocks.flatMap { it.lines }
+        if (lines.any { it.boundingBox == null }) return text
+        return OcrLineAssembler.assemble(
+            lines.map { line ->
+                val box = checkNotNull(line.boundingBox)
+                OcrTextLine(text = line.text, left = box.left, top = box.top, right = box.right, bottom = box.bottom)
+            },
+        )
+    }
 
     private suspend fun <T> Task<T>.await(): T = suspendCancellableCoroutine { continuation ->
         addOnSuccessListener { continuation.resume(it) }

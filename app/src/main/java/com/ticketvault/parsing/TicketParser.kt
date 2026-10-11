@@ -1,15 +1,18 @@
 package com.ticketvault.parsing
 
-/**
- * Motor de reglas y plantillas por comercio.
- * Implementación pendiente (HU-2.2, HU-2.3).
- */
+import java.time.LocalDate
+import java.time.LocalTime
+
 data class ParsedTicket(
-    val storeName: String?,
-    val date: String?,
+    val date: LocalDate?,
+    val time: LocalTime?,
     val items: List<ParsedTicketItem>,
     val total: Double?,
-)
+) {
+    companion object {
+        val EMPTY = ParsedTicket(date = null, time = null, items = emptyList(), total = null)
+    }
+}
 
 data class ParsedTicketItem(
     val name: String,
@@ -19,5 +22,5 @@ data class ParsedTicketItem(
 )
 
 interface TicketParser {
-    fun parse(rawOcrText: String): ParsedTicket
+    fun parse(rawOcrText: String, template: ParsingTemplate): ParsedTicket
 }
